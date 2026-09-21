@@ -1,10 +1,10 @@
-import { withGuards, ok, fail, requireString, optionalString } from './_lib/http';
-import { runPrompt } from './_lib/claude';
-import { generatePrompt } from './_lib/prompts/generate';
-import { fill } from './_lib/prompts/types';
-import { getConcept } from '../shared/concepts';
-import { checkGenerate } from '../shared/checks';
-import type { GenerateResult, GeneratedQuestion } from '../shared/types';
+import { withGuards, ok, fail, requireString, optionalString } from './_lib/http.js';
+import { runPrompt } from './_lib/claude.js';
+import { generatePrompt } from './_lib/prompts/generate.js';
+import { fill } from './_lib/prompts/types.js';
+import { getConcept } from '../shared/concepts.js';
+import { checkGenerate } from '../shared/checks.js';
+import type { GenerateResult, GeneratedQuestion } from '../shared/types.js';
 
 /**
  * POST /api/generate

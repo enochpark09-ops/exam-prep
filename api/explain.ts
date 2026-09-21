@@ -1,10 +1,10 @@
-import { withGuards, ok, fail, requireString, optionalString } from './_lib/http';
-import { runPrompt } from './_lib/claude';
-import { explainPrompt } from './_lib/prompts/explain';
-import { fill } from './_lib/prompts/types';
-import { getConcept } from '../shared/concepts';
-import { checkExplain } from '../shared/checks';
-import type { ExplainResult } from '../shared/types';
+import { withGuards, ok, fail, requireString, optionalString } from './_lib/http.js';
+import { runPrompt } from './_lib/claude.js';
+import { explainPrompt } from './_lib/prompts/explain.js';
+import { fill } from './_lib/prompts/types.js';
+import { getConcept } from '../shared/concepts.js';
+import { checkExplain } from '../shared/checks.js';
+import type { ExplainResult } from '../shared/types.js';
 
 /**
  * POST /api/explain

@@ -1,8 +1,8 @@
-import { withGuards, ok, fail, requireString } from './_lib/http';
-import { runPrompt, imageBlock } from './_lib/claude';
-import { extractPrompt } from './_lib/prompts/extract';
-import { checkExtract } from '../shared/checks';
-import type { ExtractResult } from '../shared/types';
+import { withGuards, ok, fail, requireString } from './_lib/http.js';
+import { runPrompt, imageBlock } from './_lib/claude.js';
+import { extractPrompt } from './_lib/prompts/extract.js';
+import { checkExtract } from '../shared/checks.js';
+import type { ExtractResult } from '../shared/types.js';
 
 /**
  * POST /api/extract

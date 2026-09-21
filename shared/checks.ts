@@ -3,8 +3,8 @@
  * S0 검증 하네스(src/lib/checks.mjs)와 같은 규칙이다.
  * 각 함수는 문제점 문자열 배열을 돌려준다. 빈 배열이면 통과.
  */
-import { ERROR_TYPES } from './types';
-import type { ExtractResult, DiagnoseResult, ExplainResult, GenerateResult } from './types';
+import { ERROR_TYPES } from './types.js';
+import type { ExtractResult, DiagnoseResult, ExplainResult, GenerateResult } from './types.js';
 
 export function checkExtract(d: Partial<ExtractResult>): string[] {
   const p: string[] = [];

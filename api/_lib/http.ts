@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import type { ApiErrorCode, ApiResponse } from '../../shared/types';
-import { ConfigError, UpstreamError } from './claude';
-import { checkLimit } from './ratelimit';
+import type { ApiErrorCode, ApiResponse } from '../../shared/types.js';
+import { ConfigError, UpstreamError } from './claude.js';
+import { checkLimit } from './ratelimit.js';
 
 export function fail(res: VercelResponse, status: number, code: ApiErrorCode, error: string): void {
   res.status(status).json({ ok: false, code, error } satisfies ApiResponse<never>);

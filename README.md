@@ -16,13 +16,32 @@
 
 ## 배포
 
+### 가장 빠른 길 — 브라우저만으로 (로컬 설치 없음)
+
+`npm install` 과 빌드는 Vercel 이 서버에서 알아서 한다. 컴퓨터에 Node 가 없어도 된다.
+
+1. **GitHub** 에서 New repository → 이름 `exam-prep`, Private → Create
+2. 저장소 첫 화면의 **uploading an existing file** 을 눌러, 압축 푼 폴더 **안의 내용물**을
+   전부 끌어다 놓고 Commit
+   (`.git` 폴더는 안 올려도 된다. 맥 Finder 에서는 원래 숨겨져 있다)
+3. **vercel.com** → Add New → Project → 방금 만든 저장소 **Import**
+4. Deploy 누르기 전에 **Environment Variables** 를 펼쳐서
+   `ANTHROPIC_API_KEY` = `sk-ant-...` 추가
+5. **Deploy**
+
+이후로는 GitHub 에 파일을 고쳐 올릴 때마다 Vercel 이 자동으로 다시 배포한다.
+
+키를 빼먹고 배포했다면 Project → Settings → Environment Variables 에서 넣고
+Deployments 탭에서 **Redeploy** 하면 된다. 키가 없으면 앱은 뜨지만 사진을 찍는 순간
+"서버 설정이 끝나지 않았습니다"가 나온다.
+
 ### 1. 로컬에서 확인
 
 ```bash
 npm install
 npm run build        # 타입체크 + 프로덕션 빌드
 npm run smoke        # 실제 브라우저로 렌더링 확인 (API 불필요)
-                     # 처음이면 npx playwright install chromium 한 번
+                     # 처음이면 npm i -D playwright && npx playwright install chromium
 ```
 
 `npm run dev` 는 화면만 띄운다. `/api` 가 붙은 전체 흐름을 로컬에서 보려면

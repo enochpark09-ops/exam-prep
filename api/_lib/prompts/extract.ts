@@ -1,4 +1,4 @@
-import type { Prompt } from './types';
+import type { Prompt } from './types.js';
 
 export const extractPrompt: Prompt = {
   id: 'extract',

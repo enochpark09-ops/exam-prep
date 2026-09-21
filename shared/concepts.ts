@@ -1,6 +1,6 @@
-import g1 from './concepts/math-g1.json';
-import g2 from './concepts/math-g2.json';
-import g3 from './concepts/math-g3.json';
+import g1 from './concepts/math-g1.json' with { type: 'json' };
+import g2 from './concepts/math-g2.json' with { type: 'json' };
+import g3 from './concepts/math-g3.json' with { type: 'json' };
 
 export interface Concept {
   id: string;

@@ -1,10 +1,10 @@
-import { withGuards, ok, fail, requireString, optionalString } from './_lib/http';
-import { runPrompt } from './_lib/claude';
-import { diagnosePrompt } from './_lib/prompts/diagnose';
-import { fill } from './_lib/prompts/types';
-import { conceptListText, CONCEPT_BY_ID } from '../shared/concepts';
-import { checkDiagnose } from '../shared/checks';
-import type { DiagnoseResult } from '../shared/types';
+import { withGuards, ok, fail, requireString, optionalString } from './_lib/http.js';
+import { runPrompt } from './_lib/claude.js';
+import { diagnosePrompt } from './_lib/prompts/diagnose.js';
+import { fill } from './_lib/prompts/types.js';
+import { conceptListText, CONCEPT_BY_ID } from '../shared/concepts.js';
+import { checkDiagnose } from '../shared/checks.js';
+import type { DiagnoseResult } from '../shared/types.js';
 
 const CONCEPT_IDS = new Set(CONCEPT_BY_ID.keys());
 

@@ -1,4 +1,4 @@
-import type { Prompt } from './prompts/types';
+import type { Prompt } from './prompts/types.js';
 
 const API_URL = 'https://api.anthropic.com/v1/messages';
 const API_VERSION = '2023-06-01';
