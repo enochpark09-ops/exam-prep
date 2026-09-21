@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" role="img" aria-label="오답노트">
+  <rect width="192" height="192" rx="42" fill="#6B1D2A" />
+  <g fill="none" stroke="#FBF8F5" stroke-width="11" stroke-linecap="round">
+    <path d="M56 62h62" />
+    <path d="M56 96h42" />
+    <path d="M56 130h28" />
+  </g>
+  <path
+    d="M108 128c12-10 18-22 18-33 0-9-6-15-14-15s-14 6-14 15c0 11 6 23 18 33 14 12 22 6 22 6"
+    fill="none"
+    stroke="#FBF8F5"
+    stroke-width="9"
+    stroke-linecap="round"
+    opacity="0.55"
+  />
+</svg>
