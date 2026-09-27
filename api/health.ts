@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { post, UpstreamError } from './_lib/claude.js';
 import { extractPrompt } from './_lib/prompts/extract.js';
 import { CONCEPTS } from '../shared/concepts.js';
+import pkg from '../package.json' with { type: 'json' };
 
 /**
  * GET /api/health — 브라우저 주소창에서 바로 열어볼 수 있는 자가진단.
@@ -18,6 +19,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
 
   const report: Record<string, unknown> = {
     ok: false,
+    version: (pkg as { version: string }).version,
+    commit: (process.env.VERCEL_GIT_COMMIT_SHA ?? '').slice(0, 7) || null,
+    deployedAt: process.env.VERCEL_DEPLOYMENT_ID ?? null,
     checks: {
       key: key
         ? {

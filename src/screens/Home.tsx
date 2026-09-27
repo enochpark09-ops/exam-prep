@@ -110,6 +110,11 @@ export function Home() {
             })}
           </section>
         ) : null}
+
+        <p className="tiny" style={{ textAlign: 'center', marginTop: 'auto', paddingTop: 24 }}>
+          v{__APP_VERSION__}
+          {__APP_COMMIT__ ? ` · ${__APP_COMMIT__}` : ''}
+        </p>
       </main>
 
       <div className="actionbar">

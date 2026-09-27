@@ -61,6 +61,7 @@ check('타이틀 렌더', (await page.locator('.topbar__title').textContent()) =
 check('빈 상태 문구', await page.getByText('틀린 문제를 찍으면').isVisible());
 check('학년 선택 3개', (await page.locator('.chip').count()) >= 3);
 check('선택된 학년이 채워져 보임', (await page.locator('.chip--on').count()) === 1);
+check('버전 표시', /^v\d+\.\d+\.\d+/.test((await page.locator('.screen .tiny').last().textContent()) ?? ''), (await page.locator('.screen .tiny').last().textContent()) ?? '없음');
 check('주요 버튼이 하단에', await page.getByRole('button', { name: '틀린 문제 찍기' }).isVisible());
 
 console.log('\n[촬영 안내]');
