@@ -13,8 +13,24 @@ const CONFIG_MESSAGE: Record<string, string> = {
   model: '설정된 모델 이름을 이 계정에서 쓸 수 없어. 관리자에게 알려줘.',
 };
 
-export function fail(res: VercelResponse, status: number, code: ApiErrorCode, error: string): void {
-  res.status(status).json({ ok: false, code, error } satisfies ApiResponse<never>);
+/**
+ * detail 은 학생용 문구가 아니라 만든 사람용 단서다.
+ * 이 앱은 관리자가 곧 사용자라, 원인을 로그에만 묻어두면 아무도 못 본다.
+ */
+export function fail(
+  res: VercelResponse,
+  status: number,
+  code: ApiErrorCode,
+  error: string,
+  detail?: string
+): void {
+  res.status(status).json({ ok: false, code, error, detail } satisfies ApiResponse<never>);
+}
+
+/** Anthropic 이 돌려준 설명만 뽑는다. 키 같은 건 애초에 들어있지 않다. */
+function upstreamDetail(err: UpstreamError): string {
+  const m = err.message.match(/"message"\s*:\s*"([^"]+)"/);
+  return (m ? m[1] : err.message).slice(0, 300);
 }
 
 export function ok<T>(
@@ -76,11 +92,17 @@ export function withGuards(
         console.error(`[upstream/${err.kind}]`, err.message);
         // 설정 문제는 학생이 다시 눌러도 안 풀린다. 다른 문구로 갈라준다.
         if (err.isConfig) {
-          fail(res, 500, 'server_misconfigured', CONFIG_MESSAGE[err.kind]);
+          fail(res, 500, 'server_misconfigured', CONFIG_MESSAGE[err.kind], upstreamDetail(err));
           return;
         }
         if (err.kind === 'request') {
-          fail(res, 400, 'bad_request', '이 사진은 보낼 수가 없었어. 다시 찍어보자.');
+          fail(
+            res,
+            400,
+            'bad_request',
+            '이 사진은 보낼 수가 없었어. 다시 찍어보자.',
+            upstreamDetail(err)
+          );
           return;
         }
         fail(res, 502, 'upstream_error', '지금 연결이 잘 안 돼. 잠시 뒤에 다시 해보자.');

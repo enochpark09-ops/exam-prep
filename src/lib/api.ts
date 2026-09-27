@@ -19,7 +19,13 @@ export function deviceId(): string {
 }
 
 export class ApiError extends Error {
-  constructor(message: string, readonly code: string, readonly status: number) {
+  constructor(
+    message: string,
+    readonly code: string,
+    readonly status: number,
+    /** 만든 사람용 단서 — 서버가 받은 원래 오류 설명 */
+    readonly detail?: string
+  ) {
     super(message);
     this.name = 'ApiError';
   }
@@ -54,7 +60,7 @@ async function call<T>(route: string, body: unknown): Promise<Called<T>> {
     throw new ApiError('서버 응답을 읽지 못했어.', 'invalid_output', res.status);
   }
 
-  if (!json.ok) throw new ApiError(json.error, json.code, res.status);
+  if (!json.ok) throw new ApiError(json.error, json.code, res.status, json.detail);
   return { data: json.data, warnings: json.warnings, elapsedMs: json.meta.elapsedMs };
 }
 

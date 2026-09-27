@@ -1,6 +1,6 @@
 {
   "name": "exam-prep",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "private": true,
   "type": "module",
   "description": "시험대비 오답노트 — 오답 1건을 개념으로 번역하고 같은 개념을 다시 묻는다",

@@ -18,7 +18,9 @@ export function Capture() {
   const lastSource = useRef<'camera' | 'library'>('camera');
   const [phase, setPhase] = useState<Phase>('idle');
   const [error, setError] = useState<string | null>(null);
+  const [detail, setDetail] = useState<string | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [sizeKb, setSizeKb] = useState<number | null>(null);
 
   async function handleFile(file: File) {
     setError(null);
@@ -27,6 +29,7 @@ export function Capture() {
       const img = await prepareImage(file);
       // 판독을 기다리는 동안 원본을 바로 띄운다 — 빈 화면을 보여주지 않는다
       setPreview(img.dataUrl);
+      setSizeKb(Math.round(img.blob.size / 1024));
       setPhase('reading');
 
       const { data, warnings } = await api.extract(img.dataUrl);
@@ -41,10 +44,9 @@ export function Capture() {
     } catch (err) {
       setPhase('error');
       setError(
-        err instanceof ApiError || err instanceof Error
-          ? err.message
-          : '사진을 처리하지 못했어.'
+        err instanceof ApiError || err instanceof Error ? err.message : '사진을 처리하지 못했어.'
       );
+      setDetail(err instanceof ApiError ? (err.detail ?? null) : null);
     }
   }
 
@@ -93,6 +95,20 @@ export function Capture() {
           <p className="muted" style={{ maxWidth: 320 }}>
             밝은 곳에서, 문제 한 개가 화면에 꽉 차게 찍으면 잘 읽혀.
           </p>
+          {detail ? (
+            <details style={{ maxWidth: 360, width: '100%' }}>
+              <summary className="tiny" style={{ cursor: 'pointer' }}>
+                자세한 원인
+              </summary>
+              <p
+                className="tiny"
+                style={{ marginTop: 8, wordBreak: 'break-word', textAlign: 'left' }}
+              >
+                {detail}
+                {sizeKb ? ` (보낸 사진 ${sizeKb}KB)` : ''}
+              </p>
+            </details>
+          ) : null}
           <button className="btn btn--quiet" onClick={() => pick('library')}>
             앨범에서 고를래
           </button>

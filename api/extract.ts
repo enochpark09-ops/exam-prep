@@ -15,6 +15,9 @@ export default withGuards('extract', async ({ body }, res) => {
     return;
   }
 
+  // 실패했을 때 사진 크기가 원인인지 로그만 보고 가를 수 있게 남긴다
+  console.log(`[extract] 이미지 ${Math.round(image.length / 1024)}KB (base64 기준)`);
+
   const result = await runPrompt<ExtractResult>(extractPrompt, extractPrompt.user, [
     imageBlock(image),
   ]);

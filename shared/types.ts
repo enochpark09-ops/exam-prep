@@ -69,7 +69,7 @@ export interface GenerateResult {
 /** 모든 /api 응답의 공통 봉투 */
 export type ApiResponse<T> =
   | { ok: true; data: T; warnings: string[]; meta: { promptVersion: number; elapsedMs: number } }
-  | { ok: false; error: string; code: ApiErrorCode };
+  | { ok: false; error: string; code: ApiErrorCode; detail?: string };
 
 export type ApiErrorCode =
   | 'bad_request'
