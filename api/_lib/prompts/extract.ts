@@ -5,7 +5,6 @@ export const extractPrompt: Prompt = {
   version: 1,
   model: 'claude-sonnet-5',
   maxTokens: 2000,
-  temperature: 0,
 
   system: `당신은 한국 중학교 시험지·문제집 사진에서 문제를 정확히 옮겨 적는 전사 전문가다.
 당신의 임무는 해석이나 풀이가 아니라 **보이는 그대로 옮기는 것**이다.

@@ -4,7 +4,6 @@ export interface Prompt {
   version: number;
   model: string;
   maxTokens: number;
-  temperature: number;
   system: string;
   /** {{VAR}} 자리는 fill() 로 채운다 */
   user: string;

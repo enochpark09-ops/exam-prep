@@ -5,7 +5,6 @@ export const diagnosePrompt: Prompt = {
   version: 1,
   model: 'claude-sonnet-5',
   maxTokens: 1500,
-  temperature: 0,
 
   system: `당신은 한국 중학교 수학 교사다. 학생이 틀린 문제 하나를 보고,
 **그 문제가 어떤 개념을 요구하는지**와 **학생이 어디서 어긋났는지**를 판정한다.

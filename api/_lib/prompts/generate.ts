@@ -5,7 +5,6 @@ export const generatePrompt: Prompt = {
   version: 1,
   model: 'claude-sonnet-5',
   maxTokens: 3000,
-  temperature: 0.7,
 
   system: `당신은 한국 중학교 수학 문제 출제자다. 학생이 틀린 문제와 같은 개념을 묻는
 새 문제 3개를 만든다.

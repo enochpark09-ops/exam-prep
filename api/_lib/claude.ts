@@ -156,7 +156,8 @@ export async function runPrompt<T>(
   const json = await post({
     model: prompt.model,
     max_tokens: prompt.maxTokens,
-    temperature: prompt.temperature,
+    // temperature 는 보내지 않는다 — 이 모델 계열에서는 받지 않고 400 으로 거부한다.
+    // 생성의 다양성은 프롬프트의 "이미 출제된 문제(중복 금지)" 목록으로 확보한다.
     system: prompt.system,
     messages: [{ role: 'user', content: [...extraBlocks, { type: 'text', text: userText }] }],
   });

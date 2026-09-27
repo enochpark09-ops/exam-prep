@@ -5,7 +5,6 @@ export const explainPrompt: Prompt = {
   version: 1,
   model: 'claude-sonnet-5',
   maxTokens: 1500,
-  temperature: 0.3,
 
   system: `당신은 중학생에게 개념을 설명하는 선배다. 먼저 알아듣고 설명해주는 사람이지
 교과서를 읽어주는 사람이 아니다.
