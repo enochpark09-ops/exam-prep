@@ -60,12 +60,19 @@ await page.goto(`http://localhost:${PORT}/`, { waitUntil: 'networkidle' });
 check('타이틀 렌더', (await page.locator('.topbar__title').textContent()) === '오답노트');
 check('빈 상태 문구', await page.getByText('틀린 문제를 찍으면').isVisible());
 check('학년 선택 3개', (await page.locator('.chip').count()) >= 3);
+check('선택된 학년이 채워져 보임', (await page.locator('.chip--on').count()) === 1);
 check('주요 버튼이 하단에', await page.getByRole('button', { name: '틀린 문제 찍기' }).isVisible());
 
 console.log('\n[촬영 안내]');
 await page.getByRole('button', { name: '틀린 문제 찍기' }).click();
 await page.waitForURL('**/capture');
 check('촬영 가이드 표시', await page.getByText('한 장에 문제 한 개').isVisible());
+  check('앨범에서 고르기 버튼', await page.getByRole('button', { name: '앨범에서 고르기' }).isVisible());
+  {
+    const inputs = await page.locator('input[type=file]').count();
+    const withCapture = await page.locator('input[type=file][capture]').count();
+    check('카메라·앨범 input 이 분리됨', inputs === 2 && withCapture === 1, `input ${inputs}개, capture ${withCapture}개`);
+  }
 
 console.log('\n[직접 입력 + 수식 렌더]');
 await page.getByRole('button', { name: '직접 입력하기' }).click();

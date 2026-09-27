@@ -391,6 +391,23 @@ body {
   color: var(--text-2);
 }
 
+/* 고른 것 — 안 고른 것과 확실히 갈라지게 채운다 */
+.chip--on {
+  background: var(--burgundy);
+  color: var(--surface);
+  border-color: var(--burgundy);
+}
+
+:root[data-theme='dark'] .chip--on {
+  color: #1a1012;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .chip--on {
+    color: #1a1012;
+  }
+}
+
 .chips {
   display: flex;
   flex-wrap: wrap;

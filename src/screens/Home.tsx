@@ -80,9 +80,10 @@ export function Home() {
             {[1, 2, 3].map((g) => (
               <button
                 key={g}
-                className={`chip${grade === g ? '' : ' chip--muted'}`}
+                className={`chip ${grade === g ? 'chip--on' : 'chip--muted'}`}
                 onClick={() => changeGrade(g)}
-                style={{ flex: 1, justifyContent: 'center', minHeight: 40, cursor: 'pointer' }}
+                aria-pressed={grade === g}
+                style={{ flex: 1, justifyContent: 'center', minHeight: 44, cursor: 'pointer' }}
               >
                 중{g}
               </button>

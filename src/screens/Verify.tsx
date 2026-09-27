@@ -125,7 +125,7 @@ export function Verify({ manual = false }: { manual?: boolean }) {
 
       <main className="screen">
         {state.imageDataUrl && !manual ? (
-          <img className="thumb" src={state.imageDataUrl} alt="찍은 문제" />
+          <img className="thumb" src={state.imageDataUrl} alt="가져온 문제" />
         ) : null}
 
         {source.multipleQuestions ? (

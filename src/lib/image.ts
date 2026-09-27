@@ -15,7 +15,13 @@ export interface PreparedImage {
 }
 
 export async function prepareImage(file: File | Blob): Promise<PreparedImage> {
-  const bitmap = await createImageBitmap(file);
+  let bitmap: ImageBitmap;
+  try {
+    bitmap = await createImageBitmap(file);
+  } catch {
+    // 아이폰 HEIC 를 데스크톱 브라우저에서 고른 경우가 대부분이다
+    throw new Error('이 사진 형식은 못 읽어. JPG나 PNG로 된 사진을 골라줘.');
+  }
   const scale = Math.min(1, MAX_EDGE / Math.max(bitmap.width, bitmap.height));
   const width = Math.round(bitmap.width * scale);
   const height = Math.round(bitmap.height * scale);

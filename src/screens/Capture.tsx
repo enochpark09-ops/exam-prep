@@ -11,7 +11,11 @@ type Phase = 'idle' | 'preparing' | 'reading' | 'error';
 export function Capture() {
   const navigate = useNavigate();
   const { patch } = useFlow();
-  const fileRef = useRef<HTMLInputElement>(null);
+  // 카메라와 앨범은 input 을 따로 둔다 — capture 속성이 붙어 있으면
+  // 모바일에서 앨범을 못 열고 바로 카메라로 넘어간다.
+  const cameraRef = useRef<HTMLInputElement>(null);
+  const libraryRef = useRef<HTMLInputElement>(null);
+  const lastSource = useRef<'camera' | 'library'>('camera');
   const [phase, setPhase] = useState<Phase>('idle');
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -36,23 +40,32 @@ export function Capture() {
       navigate('/verify', { replace: true });
     } catch (err) {
       setPhase('error');
-      setError(err instanceof ApiError ? err.message : '사진을 처리하지 못했어.');
+      setError(
+        err instanceof ApiError || err instanceof Error
+          ? err.message
+          : '사진을 처리하지 못했어.'
+      );
     }
+  }
+
+  function pick(source: 'camera' | 'library') {
+    lastSource.current = source;
+    (source === 'camera' ? cameraRef : libraryRef).current?.click();
   }
 
   function retry() {
     setPhase('idle');
     setError(null);
     setPreview(null);
-    fileRef.current?.click();
+    pick(lastSource.current);
   }
 
   return (
     <>
-      <TopBar title="틀린 문제 찍기" onBack />
+      <TopBar title="틀린 문제 넣기" onBack />
 
       <input
-        ref={fileRef}
+        ref={cameraRef}
         type="file"
         accept="image/*"
         capture="environment"
@@ -63,12 +76,26 @@ export function Capture() {
           e.target.value = '';
         }}
       />
+      <input
+        ref={libraryRef}
+        type="file"
+        accept="image/*"
+        hidden
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          if (f) void handleFile(f);
+          e.target.value = '';
+        }}
+      />
 
       {phase === 'error' ? (
-        <ErrorState message={error ?? '문제가 생겼어.'} onRetry={retry} retryLabel="다시 찍기">
+        <ErrorState message={error ?? '문제가 생겼어.'} onRetry={retry} retryLabel="다시 해보기">
           <p className="muted" style={{ maxWidth: 320 }}>
             밝은 곳에서, 문제 한 개가 화면에 꽉 차게 찍으면 잘 읽혀.
           </p>
+          <button className="btn btn--quiet" onClick={() => pick('library')}>
+            앨범에서 고를래
+          </button>
           <button className="btn btn--quiet" onClick={() => navigate('/manual')}>
             직접 입력할래
           </button>
@@ -77,7 +104,7 @@ export function Capture() {
         <>
           <main className="screen">
             <div className="card">
-              <p className="card__label">이렇게 찍어줘</p>
+              <p className="card__label">이런 사진이 잘 읽혀</p>
               <ul className="summary-list">
                 <li>한 장에 문제 한 개</li>
                 <li>밝은 곳에서, 그림자 없이</li>
@@ -85,12 +112,18 @@ export function Capture() {
               </ul>
             </div>
             <p className="muted">
+              이미 찍어둔 사진이나 캡처한 화면도 앨범에서 고르면 돼.
+            </p>
+            <p className="muted">
               사진은 이 기기에만 저장돼. 판독할 때만 서버를 거치고 따로 보관하지 않아.
             </p>
           </main>
           <div className="actionbar">
-            <button className="btn btn--primary" onClick={() => fileRef.current?.click()}>
+            <button className="btn btn--primary" onClick={() => pick('camera')}>
               사진 찍기
+            </button>
+            <button className="btn btn--ghost" onClick={() => pick('library')}>
+              앨범에서 고르기
             </button>
             <button className="btn btn--quiet" onClick={() => navigate('/manual')}>
               직접 입력하기
@@ -99,7 +132,7 @@ export function Capture() {
         </>
       ) : (
         <main className="screen">
-          {preview ? <img className="thumb" src={preview} alt="찍은 문제" /> : null}
+          {preview ? <img className="thumb" src={preview} alt="가져온 문제" /> : null}
           <div className="row" style={{ justifyContent: 'center', gap: 12 }}>
             <div className="spinner" aria-hidden />
             <span className="h2">
